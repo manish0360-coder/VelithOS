@@ -1,0 +1,195 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════════
+   VELITH — design tokens (CDD §4: four worlds, one physics)
+
+   The shared physics lives at :root. Each layer scope (data-layer="…")
+   re-binds the same *semantic* variables — --world-bg, --world-text,
+   --world-accent, --world-line — so components are written once and
+   change temperament by entering a different world. Layer palettes are
+   declared now (design-language consistency across phases); Phase 1
+   surfaces use the shared physics and the session voice.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@theme {
+  /* Shared physics */
+  --color-void: #05060a;
+  --color-text: #e9ecf2;
+  --color-dim: #98a1b1;
+  --color-faint: #525b6b;
+  --color-line: rgba(233, 236, 242, 0.09);
+  --color-line-strong: rgba(233, 236, 242, 0.18);
+
+  /* The session voice: instrument phosphor (the chrome, clearance, record) */
+  --color-phosphor: #e2b169;
+  --color-phosphor-dim: rgba(226, 177, 105, 0.35);
+
+  /* Layer accents (foreshadowed in the Manifest, owned by their scenes) */
+  --color-lab-stain: #c06844; /* MiniFlyWire — specimen stain */
+  --color-lab-bone: #ede3cf;
+  --color-platform-steel: #7fa8ba; /* Noetica — version-mark steel */
+  --color-velith-amber: #e2a24c; /* Velith — work-light amber */
+  --color-dawn: #5c7fa0; /* Mini Prometheus — pre-dawn horizon */
+  --color-dawn-deep: #0a1220;
+
+  --font-sans: "Archivo Variable", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+}
+
+/* ── World scopes: same semantic variables, different atmospheres ─────── */
+
+:root,
+[data-layer="void"] {
+  --world-bg: var(--color-void);
+  --world-text: var(--color-text);
+  --world-accent: var(--color-phosphor);
+  --world-line: var(--color-line);
+}
+
+[data-layer="miniflywire"] {
+  --world-bg: #121009; /* warm dark */
+  --world-text: var(--color-lab-bone);
+  --world-accent: var(--color-lab-stain);
+  --world-line: rgba(237, 227, 207, 0.1);
+}
+
+[data-layer="noetica"] {
+  --world-bg: #171b21; /* the only layer with no darkness */
+  --world-text: #eef1f5;
+  --world-accent: var(--color-platform-steel);
+  --world-line: rgba(238, 241, 245, 0.14);
+}
+
+[data-layer="velith"] {
+  --world-bg: #0c0a07;
+  --world-text: #f0ead9;
+  --world-accent: var(--color-velith-amber);
+  --world-line: rgba(240, 234, 217, 0.1);
+}
+
+[data-layer="prometheus"] {
+  --world-bg: var(--color-dawn-deep);
+  --world-text: #d8e2ee;
+  --world-accent: var(--color-dawn);
+  --world-line: rgba(216, 226, 238, 0.08);
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────── */
+
+html {
+  background: var(--color-void);
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-void);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-phosphor);
+  color: var(--color-void);
+}
+
+/* Instrument micro-label — the session voice's smallest register */
+.microlabel {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-dim);
+}
+
+/* ── Attention is light (CDD Principle 4) ─────────────────────────────
+   A fixed illumination field whose center is written as CSS variables
+   by a rAF loop reading the input bus. Pointer and keyboard focus feed
+   the same coordinate. Low opacity by design: it is light, not a torch. */
+
+.attention-field {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: var(--attention-on, 0);
+  transition: opacity 1.2s ease;
+  background: radial-gradient(
+    340px circle at var(--attention-x, 50%) var(--attention-y, 40%),
+    rgba(226, 177, 105, 0.055),
+    transparent 70%
+  );
+}
+
+/* Keyboard focus receives the identical attention treatment */
+:focus-visible {
+  outline: 1px solid var(--world-accent, var(--color-phosphor));
+  outline-offset: 3px;
+  box-shadow: 0 0 24px 0 var(--color-phosphor-dim);
+}
+
+/* ── Fact citations: attention reveals the source (Principle 1) ──────── */
+
+.fact {
+  position: relative;
+}
+
+.fact .fact-source {
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
+  color: var(--color-faint);
+  opacity: 0;
+  transform: translateY(2px);
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s ease;
+  display: block;
+  margin-top: 0.5rem;
+}
+
+.fact:hover .fact-source,
+.fact:focus-within .fact-source {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── The three flow grammars, typographic seed (Principle 3) ──────────
+   Knowledge: dashed. Code: solid. Experience: rising data (dotted, will
+   gain upward motion when the world exists in Phase 2). */
+
+.flow-rule {
+  display: block;
+  width: 2.75rem;
+  border: 0;
+  border-top-width: 1px;
+  border-top-color: var(--color-faint);
+}
+.flow-rule[data-flow="knowledge"] {
+  border-top-style: dashed;
+}
+.flow-rule[data-flow="code"] {
+  border-top-style: solid;
+}
+.flow-rule[data-flow="experience"] {
+  border-top-style: dotted;
+}
+
+/* ── Reduced motion: a first-class edition (Principle 6) ──────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .attention-field {
+    display: none;
+  }
+}
