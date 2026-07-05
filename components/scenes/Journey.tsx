@@ -8,7 +8,7 @@ import Laboratory from "@/components/scenes/Laboratory";
 import Crossing from "@/components/scenes/Crossing";
 import PlatformHall from "@/components/scenes/PlatformHall";
 import InterfaceSeam from "@/components/scenes/InterfaceSeam";
-import StateOfRecord from "@/components/scenes/StateOfRecord";
+import Arena from "@/components/scenes/Arena";
 import Record from "@/components/scenes/Record";
 import SessionRail from "@/components/chrome/SessionRail";
 import DepthRail from "@/components/chrome/DepthRail";
@@ -23,7 +23,7 @@ import { EASE } from "@/lib/motion";
  * out not to be empty — the Overlook's structure stands in it.
  *
  * Current order: Clearance → Overlook → Laboratory → Crossing →
- * Platform Hall → Interface Seam → State of Record → Record.
+ * Platform Hall → Interface Seam → Arena → Record.
  * Phase-3+ insertion point: the layer scenes mount between Overlook and
  * Record inside <main>. The shell itself does not change.
  */
@@ -52,7 +52,7 @@ export default function Journey() {
           <Crossing />
           <PlatformHall />
           <InterfaceSeam />
-          <StateOfRecord />
+          <Arena />
           <Record />
         </main>
       </motion.div>
