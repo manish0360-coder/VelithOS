@@ -102,10 +102,10 @@ export function provision(clearance: string): SessionState {
 /** Append-only. Ignored after sealing — a sealed record does not change. */
 export function logEvent(kind: SessionEvent["kind"], detail: string): void {
   if (state.id === "" || state.sealedHash !== null) return;
-  // Scene entries are logged once; repeat visits to a scene are not events.
+  // Scene entries and discoveries are logged once; repetition is not an event.
   if (
-    kind === "scene" &&
-    state.events.some((e) => e.kind === "scene" && e.detail === detail)
+    (kind === "scene" || kind === "discovery") &&
+    state.events.some((e) => e.kind === kind && e.detail === detail)
   ) {
     return;
   }

@@ -29,7 +29,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <a
-          href="#manifest"
+          href="#overlook"
           className="microlabel sr-only z-[70] bg-void px-4 py-2 text-phosphor focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
         >
           Skip to content

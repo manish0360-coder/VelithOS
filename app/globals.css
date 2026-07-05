@@ -176,6 +176,17 @@ body {
   border-top-style: dotted;
 }
 
+/* ── The laboratory's notebook voice (CDD §4, MiniFlyWire typography) ──
+   Marginalia: annotations that read as handled rather than typeset —
+   italic, slightly small, in the layer's text color at low emphasis.
+   Deliberately no handwriting webfont: one voice-change, zero bytes. */
+
+.marginalia {
+  font-style: italic;
+  letter-spacing: 0.01em;
+  color: color-mix(in srgb, var(--world-text, var(--color-text)) 62%, transparent);
+}
+
 /* ── Reduced motion: a first-class edition (Principle 6) ──────────────── */
 
 @media (prefers-reduced-motion: reduce) {

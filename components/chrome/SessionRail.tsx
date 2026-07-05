@@ -24,7 +24,7 @@ export default function SessionRail() {
   return (
     <header className="fixed inset-x-0 top-0 z-40 border-b border-line bg-void/70 backdrop-blur-md">
       <div className="mx-auto flex h-10 max-w-6xl items-center justify-between gap-4 px-4 sm:px-8">
-        <a href="#manifest" className="flex items-baseline gap-3">
+        <a href="#overlook" className="flex items-baseline gap-3">
           <span className="font-mono text-[11px] font-medium tracking-[0.34em] text-text">
             VELITH
           </span>
