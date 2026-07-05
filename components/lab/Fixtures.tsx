@@ -61,7 +61,7 @@ export function SealedExhibit() {
   return (
     <Reveal temperament="inquire">
       <div
-        className="relative mx-auto max-w-md border border-[var(--world-line)] bg-[var(--world-bg)]/80 p-6 text-center"
+        className="glass-seal relative mx-auto max-w-md border border-[var(--world-line)] bg-[var(--world-bg)]/80 p-6 text-center"
         onMouseEnter={() => {
           if (!seen) {
             setSeen(true);
@@ -76,15 +76,6 @@ export function SealedExhibit() {
         }}
         tabIndex={0}
       >
-        {/* The glass: a diagonal sheen, sealed corners */}
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(115deg, transparent 42%, rgba(237,227,207,0.05) 50%, transparent 58%)",
-          }}
-        />
         <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-[var(--world-text)]/45">
           Sealed exhibit — do not promote
         </p>

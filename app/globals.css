@@ -176,6 +176,36 @@ body {
   border-top-style: dotted;
 }
 
+/* ── Shared fixtures ──────────────────────────────────────────────────
+   .glass-seal — the read-only treatment: a diagonal sheen over content
+   that can be seen but never touched (lab's sealed exhibit, the
+   platform's reference wing).
+   .substrate-floor — the Noetica hall's floor IS the state substrate
+   (§6.1): a fine, even, shadowless grid. Utterly still by design. */
+
+.glass-seal {
+  position: relative;
+}
+.glass-seal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 42%,
+    color-mix(in srgb, var(--world-text, var(--color-text)) 5%, transparent) 50%,
+    transparent 58%
+  );
+}
+
+.substrate-floor {
+  background-image:
+    linear-gradient(var(--world-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--world-line) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
 /* ── The laboratory's notebook voice (CDD §4, MiniFlyWire typography) ──
    Marginalia: annotations that read as handled rather than typeset —
    italic, slightly small, in the layer's text color at low emphasis.

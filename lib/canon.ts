@@ -129,30 +129,38 @@ export const FLOWS: readonly Flow[] = [
   },
 ] as const;
 
-/* ── Frozen state (what is actually true right now) ───────────────────── */
+/* ── Frozen state (what is actually true right now) ─────────────────────
+   Named facts so scenes can absorb them as they gain permanent homes:
+   the Noetica facts live in the Platform Hall's seal from Batch 1 on;
+   the Velith fact moves into the Arena in Batch 2. STATE_OF_RECORD keeps
+   the interim list for whatever has no home yet. */
 
-export const STATE_OF_RECORD: readonly Fact[] = [
-  fact(
-    "Noetica platform engineering is complete and frozen: PE-1 … PE-21, every Constitution Part VI mechanism with a default implementation. Freeze tag platform-engineering-v1.",
-    "Noetica PROJECT_STATE.md §2.3, §3",
-  ),
-  fact(
-    "Certified: mypy --strict clean across 89 files; 181 tests; 15 architecture tests; boundary and intra-platform dependency DAG clean.",
-    "Noetica PROJECT_STATE.md §3",
-  ),
-  fact(
-    "Gated mechanisms PE-G1 … PE-G5 are deferred by law. No gate is satisfied; no gated work has been opened.",
-    "Noetica PROJECT_STATE.md §4, Law 8",
-  ),
-  fact(
-    "The Primitive Registry is empty — nothing has been promoted yet.",
-    "Noetica PROJECT_STATE.md §6",
-  ),
-  fact(
-    "Velith milestones M0–M2 are complete: a runnable skeleton; one reproducible propose → verify → log episode; a hardened deterministic verifier at Determinism Level 4.",
-    "DECISIONS.md D12, D16–D21; Velith README",
-  ),
-] as const;
+export const FACT_NOETICA_FROZEN = fact(
+  "Noetica platform engineering is complete and frozen: PE-1 … PE-21, every Constitution Part VI mechanism with a default implementation. Freeze tag platform-engineering-v1.",
+  "Noetica PROJECT_STATE.md §2.3, §3",
+);
+
+export const FACT_CERTIFIED = fact(
+  "Certified: mypy --strict clean across 89 files; 181 tests; 15 architecture tests; boundary and intra-platform dependency DAG clean.",
+  "Noetica PROJECT_STATE.md §3",
+);
+
+export const FACT_GATED = fact(
+  "Gated mechanisms PE-G1 … PE-G5 are deferred by law. No gate is satisfied; no gated work has been opened.",
+  "Noetica PROJECT_STATE.md §4, Law 8",
+);
+
+export const FACT_REGISTRY_EMPTY = fact(
+  "The Primitive Registry is empty — nothing has been promoted yet.",
+  "Noetica PROJECT_STATE.md §6",
+);
+
+export const FACT_VELITH_M2 = fact(
+  "Velith milestones M0–M2 are complete: a runnable skeleton; one reproducible propose → verify → log episode; a hardened deterministic verifier at Determinism Level 4.",
+  "DECISIONS.md D12, D16–D21; Velith README",
+);
+
+export const STATE_OF_RECORD: readonly Fact[] = [FACT_VELITH_M2] as const;
 
 /* ── Clearance sequence (Scene 0) ─────────────────────────────────────── */
 
