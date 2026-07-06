@@ -32,7 +32,7 @@ import { FactText, Reveal } from "@/components/ui/Reveal";
 export function FreezeSeal() {
   return (
     <Reveal temperament="execute">
-      <div className="border border-platform-steel/40 bg-[var(--world-bg)] p-8 sm:p-10">
+      <div className="plate border border-platform-steel/40 bg-[var(--world-bg)] p-8 sm:p-10">
         <p className="microlabel !text-[var(--world-text)]/55">THE FREEZE SEAL</p>
         <p className="mt-3 font-mono text-lg tracking-[0.14em] text-platform-steel sm:text-xl">
           {SEAL.tag}

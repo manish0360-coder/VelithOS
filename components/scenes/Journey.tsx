@@ -9,6 +9,7 @@ import Crossing from "@/components/scenes/Crossing";
 import PlatformHall from "@/components/scenes/PlatformHall";
 import InterfaceSeam from "@/components/scenes/InterfaceSeam";
 import Arena from "@/components/scenes/Arena";
+import Horizon from "@/components/scenes/Horizon";
 import Record from "@/components/scenes/Record";
 import SessionRail from "@/components/chrome/SessionRail";
 import DepthRail from "@/components/chrome/DepthRail";
@@ -23,7 +24,8 @@ import { EASE } from "@/lib/motion";
  * out not to be empty — the Overlook's structure stands in it.
  *
  * Current order: Clearance → Overlook → Laboratory → Crossing →
- * Platform Hall → Interface Seam → Arena → Record.
+ * Platform Hall → Interface Seam → Arena → Horizon (incl. the Return) →
+ * Record. The journey is complete.
  * Phase-3+ insertion point: the layer scenes mount between Overlook and
  * Record inside <main>. The shell itself does not change.
  */
@@ -47,12 +49,16 @@ export default function Journey() {
         <SessionRail />
         <DepthRail />
         <main className="relative z-10">
+          <h1 className="sr-only">
+            VELITH — public interface of the Velith ecosystem
+          </h1>
           <Overlook />
           <Laboratory />
           <Crossing />
           <PlatformHall />
           <InterfaceSeam />
           <Arena />
+          <Horizon />
           <Record />
         </main>
       </motion.div>

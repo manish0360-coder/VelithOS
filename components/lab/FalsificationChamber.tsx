@@ -109,7 +109,7 @@ export default function FalsificationChamber() {
   };
 
   return (
-    <figure className="border border-[var(--world-line)] bg-[var(--world-bg)]/70 p-5 sm:p-8">
+    <figure className="plate border border-[var(--world-line)] bg-[var(--world-bg)]/70 p-5 sm:p-8">
       <figcaption className="flex flex-wrap items-baseline justify-between gap-2">
         <span className="font-mono text-xs tracking-[0.16em] text-[var(--world-text)]">
           THE FALSIFICATION CHAMBER

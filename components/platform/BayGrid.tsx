@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { BAYS, BAY_SOURCE, GATED_BAYS, GATE_REVIEW, type Bay } from "@/lib/canon-platform";
 import { logEvent } from "@/lib/session";
+import { surfaceLight } from "@/lib/inputs";
 import { EASE } from "@/lib/motion";
 import { FactText, Reveal } from "@/components/ui/Reveal";
 
@@ -48,8 +49,9 @@ export default function BayGrid() {
               <button
                 type="button"
                 onClick={() => inspect(b)}
+                onPointerMove={surfaceLight}
                 aria-pressed={inspected === b.pe}
-                className={`flex h-full w-full flex-col justify-between gap-4 p-3.5 text-left transition-colors duration-200 sm:p-4 ${
+                className={`lit op-target flex h-full w-full flex-col justify-between gap-4 p-3.5 text-left transition-colors duration-200 sm:p-4 ${
                   inspected === b.pe
                     ? "bg-platform-steel/15"
                     : "bg-[var(--world-bg)] hover:bg-platform-steel/[0.06]"
@@ -70,7 +72,7 @@ export default function BayGrid() {
 
       {/* The inspection panel — the contract, never the internals */}
       <div
-        className="mt-px min-h-[7.5rem] border border-[var(--world-line)] bg-[var(--world-bg)] p-5 sm:p-6"
+        className="plate mt-px min-h-[7.5rem] border border-[var(--world-line)] bg-[var(--world-bg)] p-5 sm:p-6"
         aria-live="polite"
       >
         <motion.div
@@ -78,7 +80,10 @@ export default function BayGrid() {
           initial={reduced ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3, ease: [...EASE.execute] }}
+          className="flex items-start gap-5"
         >
+          <BayLocator pe={bay.pe} />
+          <div>
           <p className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
             <span className="font-mono text-xs tracking-[0.2em] text-platform-steel">
               PE-{String(bay.pe).padStart(2, "0")} · {bay.subsystem}
@@ -91,6 +96,7 @@ export default function BayGrid() {
           <p className="microlabel mt-4 !text-[9px] text-[var(--world-text)]/35">
             INSPECT THE CONTRACT — INTERFACES ONLY, NEVER INTERNALS
           </p>
+          </div>
         </motion.div>
       </div>
 
@@ -125,5 +131,35 @@ export default function BayGrid() {
         </Reveal>
       </div>
     </div>
+  );
+}
+
+/**
+ * BAY LOCATOR — a projection of the inspected bay's real position in the
+ * dependency order. The 3×7 grid IS the hall; the lit cell is this bay;
+ * the faint cells beneath it are everything it stands on (built first).
+ * Drawn from the same BAYS order the grid renders — data, not an icon.
+ */
+function BayLocator({ pe }: { pe: number }) {
+  return (
+    <figure aria-hidden="true" className="hidden shrink-0 sm:block">
+      <div className="grid grid-cols-7 gap-[3px]">
+        {BAYS.map((b) => (
+          <span
+            key={b.pe}
+            className={`h-2.5 w-2.5 border ${
+              b.pe === pe
+                ? "border-platform-steel bg-platform-steel/70"
+                : b.pe < pe
+                  ? "border-platform-steel/35 bg-platform-steel/15"
+                  : "border-[var(--world-line)]"
+            }`}
+          />
+        ))}
+      </div>
+      <figcaption className="microlabel mt-2 !text-[7px] !text-[var(--world-text)]/35">
+        DEPTH — WHAT IT STANDS ON
+      </figcaption>
+    </figure>
   );
 }

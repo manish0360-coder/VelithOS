@@ -35,6 +35,8 @@ function SpotlightInvalidator() {
 function Scene({ frozen }: { frozen: boolean }) {
   return (
     <>
+      {/* Volumetric depth: the structure recedes into breathable dark. */}
+      <fog attach="fog" args={["#05060a", 12, 44]} />
       <Rig frozen={frozen} />
       {TOWER_HALLS.map((spec) => (
         <Hall key={spec.id} spec={spec} frozen={frozen} />

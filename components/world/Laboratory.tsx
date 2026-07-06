@@ -7,6 +7,7 @@ import { energyTarget, setTarget } from "@/lib/spotlight";
 import { logEvent } from "@/lib/session";
 import { damp } from "@/lib/inputs";
 import { LAB, WORLD_COLORS } from "@/lib/world";
+import EnergyAura, { useAuraMaterial } from "./EnergyAura";
 
 /**
  * MiniFlyWire — the laboratory (CDD Scene 1): a smaller building standing
@@ -32,6 +33,7 @@ export default function Laboratory({ frozen }: { frozen: boolean }) {
   const faceMat = useRef<THREE.MeshBasicMaterial>(null!);
   const windowMats = useRef<(THREE.MeshBasicMaterial | null)[]>([]);
   const energy = useRef(0.55);
+  const aura = useAuraMaterial(WORLD_COLORS.miniflywire);
 
   const edges = useMemo(
     () =>
@@ -57,6 +59,7 @@ export default function Laboratory({ frozen }: { frozen: boolean }) {
 
     edgeMat.current.opacity = 0.16 + 0.62 * e;
     faceMat.current.opacity = 0.018 + 0.05 * e;
+    aura.opacity = Math.max(0, e - 0.35) * 0.24;
 
     const t = state.clock.elapsedTime;
     windowMats.current.forEach((m, i) => {
@@ -76,6 +79,7 @@ export default function Laboratory({ frozen }: { frozen: boolean }) {
   return (
     <group>
       <group position={[...LAB.center]}>
+        <EnergyAura material={aura} position={[0, 0, 0]} scale={LAB.size[0] * 2.4} />
         <lineSegments geometry={edges}>
           <lineBasicMaterial
             ref={edgeMat}

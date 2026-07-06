@@ -7,6 +7,7 @@ import { energyTarget, setTarget } from "@/lib/spotlight";
 import { logEvent } from "@/lib/session";
 import { damp } from "@/lib/inputs";
 import { WORLD_COLORS, type HallSpec } from "@/lib/world";
+import EnergyAura, { useAuraMaterial } from "./EnergyAura";
 
 /**
  * A hall of the tower (CDD Scene 1): wireframe edges over a barely-there
@@ -39,6 +40,7 @@ export default function Hall({
   );
 
   const accent = WORLD_COLORS[spec.id] ?? WORLD_COLORS.structure;
+  const aura = useAuraMaterial(accent);
 
   useFrame((state, dt) => {
     const e = frozen
@@ -61,6 +63,8 @@ export default function Hall({
 
     edgeMat.current.opacity = (0.16 + 0.62 * e) * behave;
     faceMat.current.opacity = 0.018 + 0.05 * e;
+    // Volumetric attention: the aura shares the same energy value.
+    aura.opacity = Math.max(0, e - 0.35) * 0.24 * behave;
   });
 
   return (
@@ -73,6 +77,11 @@ export default function Hall({
           opacity={0.4}
         />
       </lineSegments>
+      <EnergyAura
+        material={aura}
+        position={[0, 0, 0]}
+        scale={Math.max(spec.size[0], spec.size[1]) * 2.1}
+      />
       <mesh>
         <boxGeometry args={[...spec.size]} />
         <meshBasicMaterial

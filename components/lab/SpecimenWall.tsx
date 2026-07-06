@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { SPECIMENS, type Specimen, type SpecimenStatus } from "@/lib/canon-lab";
 import { logEvent } from "@/lib/session";
+import { surfaceLight } from "@/lib/inputs";
 import { EASE } from "@/lib/motion";
 import { FactText, Reveal } from "@/components/ui/Reveal";
 
@@ -69,8 +70,9 @@ function SpecimenCard({
       <button
         type="button"
         onClick={onToggle}
+        onPointerMove={surfaceLight}
         aria-expanded={open}
-        className="h-full w-full border border-[var(--world-line)] bg-[var(--world-bg)]/60 p-5 text-left transition-colors duration-300 hover:border-lab-stain/50 sm:p-6"
+        className="lit op-target plate h-full w-full border border-[var(--world-line)] bg-[var(--world-bg)]/60 p-5 text-left transition-colors duration-300 hover:border-lab-stain/50 sm:p-6"
       >
         <div className="flex items-baseline justify-between gap-3">
           <span className="font-mono text-[11px] tracking-[0.28em] text-lab-stain">

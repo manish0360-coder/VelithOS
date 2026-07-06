@@ -18,6 +18,11 @@ export interface PointerState {
   /** normalized −1..1 (+y up), for world-space consumers */
   nx: number;
   ny: number;
+  /** normalized velocity (units/s) — consumers damp it themselves */
+  vx: number;
+  vy: number;
+  /** performance.now() of the last movement (presence/idle detection) */
+  lastMove: number;
   /** true once any pointer/focus input has arrived */
   active: boolean;
 }
@@ -28,15 +33,38 @@ export interface ScrollState {
   progress: number;
 }
 
-export const pointer: PointerState = { x: 0, y: 0, nx: 0, ny: 0, active: false };
+export const pointer: PointerState = {
+  x: 0, y: 0, nx: 0, ny: 0, vx: 0, vy: 0, lastMove: 0, active: false,
+};
 export const scroll: ScrollState = { y: 0, progress: 0 };
 
 function setAttention(x: number, y: number): void {
+  const now = performance.now();
+  const dt = Math.min(0.1, Math.max(0.008, (now - pointer.lastMove) / 1000));
+  const nx = (x / window.innerWidth) * 2 - 1;
+  const ny = -((y / window.innerHeight) * 2 - 1);
+  if (pointer.active) {
+    pointer.vx = (nx - pointer.nx) / dt;
+    pointer.vy = (ny - pointer.ny) / dt;
+  }
   pointer.x = x;
   pointer.y = y;
-  pointer.nx = (x / window.innerWidth) * 2 - 1;
-  pointer.ny = -((y / window.innerHeight) * 2 - 1);
+  pointer.nx = nx;
+  pointer.ny = ny;
+  pointer.lastMove = now;
   pointer.active = true;
+}
+
+/**
+ * Surface light: writes the pointer's element-local position as CSS vars
+ * consumed by the `.lit` utility. One shared writer, zero React renders —
+ * the operator's attention lighting every operable surface it touches.
+ */
+export function surfaceLight(e: { currentTarget: HTMLElement; clientX: number; clientY: number }): void {
+  const el = e.currentTarget;
+  const r = el.getBoundingClientRect();
+  el.style.setProperty("--sx", `${(e.clientX - r.left).toFixed(1)}px`);
+  el.style.setProperty("--sy", `${(e.clientY - r.top).toFixed(1)}px`);
 }
 
 export function attachInputListeners(): () => void {
@@ -59,6 +87,13 @@ export function attachInputListeners(): () => void {
     );
     scroll.y = window.scrollY;
     scroll.progress = Math.min(1, scroll.y / max);
+    // Contextual reflections: the .plate sheen is positioned by descent
+    // depth, so panel materials respond to where the operator is in the
+    // journey — a reflection of the world, not an animation.
+    document.documentElement.style.setProperty(
+      "--journey-depth",
+      scroll.progress.toFixed(4),
+    );
   };
 
   window.addEventListener("pointermove", onPointer, { passive: true });

@@ -114,8 +114,8 @@ export default function InterfaceSeam() {
             className="absolute inset-0 bg-[#0c0a07]"
             style={{ opacity: amber }}
           />
-          <div className="relative mx-auto grid w-full max-w-4xl grid-cols-[1fr_auto_1fr] items-center gap-6 px-4 sm:px-8">
-            <motion.div style={{ y: leftY }} aria-hidden="true">
+          <div className="relative mx-auto grid w-full max-w-4xl grid-cols-1 items-center justify-items-center gap-6 px-4 sm:grid-cols-[1fr_auto_1fr] sm:justify-items-stretch sm:px-8">
+            <motion.div style={{ y: leftY }} aria-hidden="true" className="hidden sm:block">
               <Walls side="left" />
             </motion.div>
 
@@ -127,7 +127,7 @@ export default function InterfaceSeam() {
               {stamp}
             </motion.div>
 
-            <motion.div style={{ y: rightY }} aria-hidden="true">
+            <motion.div style={{ y: rightY }} aria-hidden="true" className="hidden sm:block">
               <Walls side="right" />
             </motion.div>
           </div>

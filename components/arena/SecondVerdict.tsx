@@ -97,7 +97,7 @@ export default function SecondVerdict() {
     complete.every((r) => r.hash === complete[0].hash);
 
   return (
-    <div className="border border-velith-amber/50 bg-[var(--world-bg)] p-6 sm:p-10">
+    <div className="plate border border-velith-amber/50 bg-[var(--world-bg)] p-6 sm:p-10">
       <p className="microlabel text-velith-amber">
         THE SECOND VERDICT — THE ONE OPERABLE STATION
       </p>
@@ -108,7 +108,18 @@ export default function SecondVerdict() {
         <FactText fact={SECOND_VERDICT.method} />
       </p>
 
-      {/* The replay record, in plain sight — what gets hashed */}
+      {/* The replay record, in plain sight — what gets hashed.
+          During phase 2 the chamber's isolation becomes visible: the
+          record sits behind the network-dark veil while hidden tests run
+          (the real two-phase mechanism, D19/README M2). */}
+      <div className="relative">
+        {stage === 2 && (
+          <div className="network-veil z-10 flex items-center justify-center">
+            <span className="microlabel bg-[var(--world-bg)]/80 px-3 py-1 !text-[9px] text-velith-amber">
+              NETWORK-DARK — HIDDEN TESTS RUNNING
+            </span>
+          </div>
+        )}
       <dl className="mt-8 grid gap-x-8 gap-y-2 border-y border-[var(--world-line)] py-4 font-mono text-[10px] tracking-wide text-[var(--world-text)]/60 sm:grid-cols-2">
         <div className="flex gap-3"><dt className="text-velith-amber/80">task</dt><dd>{REPLAY_RECORD.task} · seed {REPLAY_RECORD.seed}</dd></div>
         <div className="flex gap-3"><dt className="text-velith-amber/80">proposer</dt><dd>{REPLAY_RECORD.proposer}</dd></div>
@@ -117,6 +128,15 @@ export default function SecondVerdict() {
         <div className="flex gap-3"><dt className="text-velith-amber/80">determinism</dt><dd>Level {REPLAY_RECORD.determinism_level}</dd></div>
         <div className="flex gap-3"><dt className="text-velith-amber/80">hash covers</dt><dd>{REPLAY_RECORD.note}</dd></div>
       </dl>
+      </div>
+
+      {/* Chamber status: the two phases, truthfully indicated */}
+      <p className="microlabel mt-3 !text-[8.5px] !text-[var(--world-text)]/40" aria-hidden="true">
+        CHAMBER NETWORK:{" "}
+        <span className={stage === 1 ? "text-velith-amber" : stage === 2 ? "text-faint" : ""}>
+          {stage === 1 ? "ON — PREPARATION" : stage === 2 ? "OFF (unshare -n)" : "—"}
+        </span>
+      </p>
 
       {/* The button — and, after the first verdict, the request */}
       <div className="mt-8">
@@ -124,7 +144,7 @@ export default function SecondVerdict() {
           type="button"
           onClick={run}
           disabled={busy}
-          className="group relative border border-velith-amber px-10 py-4 font-mono text-[11px] uppercase tracking-[0.26em] text-velith-amber transition-colors duration-300 hover:bg-velith-amber hover:text-[var(--world-bg)] disabled:opacity-40"
+          className="op-target group relative border border-velith-amber px-10 py-4 font-mono text-[11px] uppercase tracking-[0.26em] text-velith-amber transition-colors duration-300 hover:bg-velith-amber hover:text-[var(--world-bg)] disabled:opacity-40"
         >
           {busy
             ? "VERIFYING…"

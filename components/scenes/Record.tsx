@@ -123,6 +123,9 @@ export default function Record() {
               <p className="microlabel mt-6 text-phosphor">
                 {DEPARTURE.sealed.text}
               </p>
+              <p className="mt-5 max-w-md text-sm leading-relaxed text-text/85">
+                <FactText fact={DEPARTURE.episode} />
+              </p>
               <div className="mt-10 border-t border-line pt-8">
                 <p className="text-xs leading-relaxed text-faint">
                   <FactText fact={DEPARTURE.exit} />

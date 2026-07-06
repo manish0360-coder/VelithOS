@@ -192,6 +192,10 @@ export const RECORD_EPIGRAPH = fact(
 
 export const DEPARTURE = {
   sealed: fact("SESSION COMPLETE — CLEARANCE EXPIRED", "VELITH_CREATIVE_DIRECTION.md, Scene 8"),
+  episode: fact(
+    "You were an episode. The system that turns experience into records has just demonstrated it on you.",
+    "VELITH_CREATIVE_DIRECTION.md, Scene 8 / §10",
+  ),
   exit: fact(
     "The ecosystem's reachable repository of record: Noetica-agent-lab (github.com/manish0360-coder/Noetica-agent-lab).",
     "ARCHITECTURE_DECISION.md, STEP 1",

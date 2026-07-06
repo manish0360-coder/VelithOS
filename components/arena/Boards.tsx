@@ -12,6 +12,7 @@ import {
   VERDICT_SOURCE,
 } from "@/lib/canon-arena";
 import { logEvent } from "@/lib/session";
+import { surfaceLight } from "@/lib/inputs";
 import { FactText, Reveal } from "@/components/ui/Reveal";
 
 /**
@@ -95,7 +96,8 @@ export function Rigs() {
                     logEvent("discovery", `examined rig: ${arm.id} — ${arm.name}`);
                   }}
                   aria-pressed={active}
-                  className="flex h-full w-full flex-col border border-[var(--world-line)] bg-[var(--world-bg)] p-4 text-left transition-colors hover:border-velith-amber/40"
+                  onPointerMove={surfaceLight}
+                  className="lit op-target flex h-full w-full flex-col border border-[var(--world-line)] bg-[var(--world-bg)] p-4 text-left transition-colors hover:border-velith-amber/40"
                 >
                   {/* Identical silhouette: frame, retriever, memory, loop mount */}
                   <span className="font-mono text-[10px] tracking-[0.24em] text-velith-amber">

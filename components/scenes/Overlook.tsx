@@ -9,6 +9,7 @@ import type { WorldTargetId } from "@/lib/world";
 import { logEvent } from "@/lib/session";
 import { EASE } from "@/lib/motion";
 import { FactText, Reveal } from "@/components/ui/Reveal";
+import SpecHologram from "@/components/ui/SpecHologram";
 
 /**
  * SCENE 1 — THE OVERLOOK (CDD §3).
@@ -98,16 +99,19 @@ export default function Overlook() {
             y: active ? 0 : 8,
           }}
           transition={{ duration: reduced ? 0 : 0.35, ease: [...EASE.session] }}
-          className="border-l border-phosphor/60 bg-void/70 py-3 pl-5 pr-4 backdrop-blur-sm"
+          className="plate flex gap-4 border-l border-phosphor/60 bg-void/70 py-3 pl-5 pr-4 backdrop-blur-sm"
         >
           {active && (
             <>
-              <p className="font-mono text-xs tracking-[0.16em] text-text">
-                {active.name}
-              </p>
-              <p className="mt-2 text-xs leading-relaxed text-dim">
-                <FactText fact={active.fact} />
-              </p>
+              <SpecHologram target={active.id} />
+              <div>
+                <p className="font-mono text-xs tracking-[0.16em] text-text">
+                  {active.name}
+                </p>
+                <p className="mt-2 text-xs leading-relaxed text-dim">
+                  <FactText fact={active.fact} />
+                </p>
+              </div>
             </>
           )}
         </motion.div>
